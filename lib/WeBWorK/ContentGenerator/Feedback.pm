@@ -240,7 +240,8 @@ sub body {
 		# bring up a mailer
 		my $mailer = Mail::Sender->new({
 			from => $ce->{mail}{smtpSender},
-			fake_from => $sender,
+			# CUSTOM MOD, disable pretending the email is from the student
+			#fake_from => $sender,
 			to => join(",", @recipients),
 			smtp    => $ce->{mail}->{smtpServer},
 			subject => $subject,

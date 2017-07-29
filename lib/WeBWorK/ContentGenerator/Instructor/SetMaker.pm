@@ -407,7 +407,7 @@ sub browse_local_panel {
     
 	my $list_of_prob_dirs= get_problem_directories($r,$lib);
 	if(scalar(@$list_of_prob_dirs) == 0) {
-		$library_selected = "Found no directories containing problems";
+		$library_selected = $r->maketext("Found no directories containing problems");
 		unshift @{$list_of_prob_dirs}, $library_selected;
 	} else {
 		my $default_value = $r->maketext(SELECT_LOCAL_STRING);
@@ -441,7 +441,7 @@ sub browse_mysets_panel {
 	my $r = $self->r;	
 	my $library_selected = shift;
 	my $list_of_local_sets = shift;
-	my $default_value = "Select a Homework Set";
+	my $default_value = $r->maketext("Select a Homework Set");
 
 	if(scalar(@$list_of_local_sets) == 0) {
 		$list_of_local_sets = [$r->maketext(NO_LOCAL_SET_STRING)];
@@ -807,7 +807,7 @@ sub browse_setdef_panel {
                                 -default=> $library_selected).
 		CGI::br().  $view_problem_line;
 	if($list_of_set_defs[0] eq $r->maketext(NO_LOCAL_SET_STRING)) {
-		$popupetc = "there are no set definition files in this course to look at."
+		$popupetc = $r->maktext("there are no set definition files in this course to look at.")
 	}
 	print CGI::Tr(CGI::td({-class=>"InfoPanel", -align=>"left"}, $r->maketext("Browse from:")." ",
 		$popupetc
@@ -1721,15 +1721,15 @@ sub body {
 	my ($next_button, $prev_button) = ("", "");
 	if ($first_index > 0) {
 		$prev_button = CGI::submit(-name=>"prev_page", -style=>"width:15ex",
-						 -value=>"Previous page");
+						 -value=>$r->maketext("Previous page"));
 	}
 	if ((1+$last_index)<scalar(@pg_files)) {
 		$next_button = CGI::submit(-name=>"next_page", -style=>"width:15ex",
-						 -value=>"Next page");
+						 -value=>$r->maketext("Next page"));
 	}
 	if (scalar(@pg_files)>0) {
-		print CGI::p(CGI::span({-id=>'what_shown'}, CGI::span({-id=>'firstshown'}, $first_shown+1)."-".CGI::span({-id=>'lastshown'}, $last_shown+1))." of ".CGI::span({-id=>'totalshown'}, $total_probs).
-			" shown.", $prev_button, " ", $next_button,
+		print CGI::p(CGI::span({-id=>'what_shown'}, CGI::span({-id=>'firstshown'}, $first_shown+1)."-".CGI::span({-id=>'lastshown'}, $last_shown+1))." ".$r->maketext("of")." ".CGI::span({-id=>'totalshown'}, $total_probs).
+			" ".$r->maketext("shown").".", $prev_button, " ", $next_button,
 		);
 		print CGI::p('Some problems shown above represent multiple similar problems from the database.  If the (top) information line for a problem has a letter M for "More", hover your mouse over the M  to see how many similar problems are hidden, or click on the M to see the problems.  If you click to view these problems, the M becomes an L, which can be clicked on to hide the problems again.');
 	}

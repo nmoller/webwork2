@@ -12,7 +12,7 @@ services:
       MYSQL_PASSWORD: passwordRW
   app:
     build: .
-    image: webwork
+    image: nmolleruq/webwork
     depends_on:
       - db
     volumes:

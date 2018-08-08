@@ -79,7 +79,6 @@ RUN apt-get update \
 
 RUN mkdir -p $APP_ROOT/courses $APP_ROOT/libraries $APP_ROOT/webwork2
 
-COPY VERSION /tmp
 
 RUN curl -fSL https://github.com/openwebwork/pg/archive/${PG_VERSION}.tar.gz -o /tmp/${PG_VERSION}.tar.gz \
     && tar xzf /tmp/${PG_VERSION}.tar.gz \
@@ -91,8 +90,7 @@ RUN curl -fSL https://github.com/openwebwork/pg/archive/${PG_VERSION}.tar.gz -o 
     && curl -fSL https://github.com/mathjax/MathJax/archive/master.tar.gz -o /tmp/mathjax.tar.gz \
     && tar xzf /tmp/mathjax.tar.gz \
     && mv MathJax-master $APP_ROOT/MathJax \
-    && rm /tmp/mathjax.tar.gz \
-    && rm /tmp/VERSION
+    && rm /tmp/mathjax.tar.gz 
     #curl -fSL https://github.com/openwebwork/webwork2/archive/WeBWorK-${WEBWORK_VERSION}.tar.gz -o /tmp/WeBWorK-${WEBWORK_VERSION}.tar.gz \
     #&& tar xzf /tmp/WeBWorK-${WEBWORK_VERSION}.tar.gz \
     #&& mv webwork2-WeBWorK-${WEBWORK_VERSION} $APP_ROOT/webwork2 \

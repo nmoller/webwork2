@@ -1,29 +1,31 @@
 FROM ubuntu:16.04
 
 ENV WEBWORK_URL=/webwork2 \
-  WEBWORK_ROOT_URL=http://localhost \
-  WEBWORK_DB_HOST=db \
-  WEBWORK_DB_PORT=3306 \
-  WEBWORK_DB_NAME=webwork \
-  WEBWORK_DB_DSN=DBI:mysql:${WEBWORK_DB_NAME}:${WEBWORK_DB_HOST}:${WEBWORK_DB_PORT} \
-  WEBWORK_DB_USER=webworkWrite \
-  WEBWORK_DB_PASSWORD=passwordRW \
-  WEBWORK_SMTP_SERVER=localhost \
-  WEBWORK_SMTP_SENDER=webwork@example.com \
-  WEBWORK_TIMEZONE=America/New_York \
-  APACHE_RUN_USER=www-data \
-  APACHE_RUN_GROUP=www-data \
-  # temporary state file location. This might be changed to /run in Wheezy+1 \
-  APACHE_PID_FILE=/var/run/apache2/apache2.pid \
-  APACHE_RUN_DIR=/var/run/apache2 \
-  APACHE_LOCK_DIR=/var/lock/apache2 \
-  # Only /var/log/apache2 is handled by /etc/logrotate.d/apache2.
-  APACHE_LOG_DIR=/var/log/apache2 \
-  APP_ROOT=/opt/webwork \
-  WEBWORK_ROOT=$APP_ROOT/webwork2 \
-  PG_ROOT=$APP_ROOT/pg \
-  DEV=0 \
-  PG_VERSION=rel-PG-2.14
+    WEBWORK_ROOT_URL=http://localhost \
+    WEBWORK_DB_HOST=db \
+    WEBWORK_DB_PORT=3306 \
+    WEBWORK_DB_NAME=webwork \
+    WEBWORK_DB_USER=webworkWrite \
+    WEBWORK_DB_PASSWORD=passwordRW \
+    WEBWORK_SMTP_SERVER=localhost \
+    WEBWORK_SMTP_SENDER=webwork@example.com \
+    WEBWORK_TIMEZONE=America/New_York \
+    APACHE_RUN_USER=www-data \
+    APACHE_RUN_GROUP=www-data \
+    # temporary state file location. This might be changed to /run in Wheezy+1 \
+    APACHE_PID_FILE=/var/run/apache2/apache2.pid \
+    APACHE_RUN_DIR=/var/run/apache2 \
+    APACHE_LOCK_DIR=/var/lock/apache2 \
+    # Only /var/log/apache2 is handled by /etc/logrotate.d/apache2.
+    APACHE_LOG_DIR=/var/log/apache2 \
+    APP_ROOT=/opt/webwork \
+    DEV=0 \
+    PG_VERSION=rel-PG-2.14
+
+ENV WEBWORK_DB_DSN=DBI:mysql:${WEBWORK_DB_NAME}:${WEBWORK_DB_HOST}:${WEBWORK_DB_PORT} \
+    WEBWORK_ROOT=$APP_ROOT/webwork2 \
+    PG_ROOT=$APP_ROOT/pg \
+    PATH=$PATH:$APP_ROOT/webwork2/bin
 
 
 RUN apt-get update \
@@ -91,12 +93,6 @@ RUN curl -fSL https://github.com/openwebwork/pg/archive/${PG_VERSION}.tar.gz -o 
     && tar xzf /tmp/mathjax.tar.gz \
     && mv MathJax-master $APP_ROOT/MathJax \
     && rm /tmp/mathjax.tar.gz 
-    #curl -fSL https://github.com/openwebwork/webwork2/archive/WeBWorK-${WEBWORK_VERSION}.tar.gz -o /tmp/WeBWorK-${WEBWORK_VERSION}.tar.gz \
-    #&& tar xzf /tmp/WeBWorK-${WEBWORK_VERSION}.tar.gz \
-    #&& mv webwork2-WeBWorK-${WEBWORK_VERSION} $APP_ROOT/webwork2 \
-    #&& rm /tmp/WeBWorK-${WEBWORK_VERSION}.tar.gz \
-
-RUN echo "PATH=$PATH:$APP_ROOT/webwork2/bin" >> /root/.bashrc
 
 COPY . $APP_ROOT/webwork2
 
